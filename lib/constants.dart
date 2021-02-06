@@ -11,24 +11,23 @@ class MyResources {
   static Color sideBarColor = Color(0xfff5f5f5);
   static Color buttonColor = Color(0xffebebeb);
   static Color hintColor = Color(0xffd2d2d2);
+  static Color loginBtnColor = Color(0xff5DB075);
+  static Color registerBtnColor = Color(0xff30BCED);
 
   static TextStyle appTextStyle = GoogleFonts.roboto(
-    fontSize: 14,
-    color: Colors.black,
+    fontSize: 16,
+    color: Colors.white,
   );
-  static TextStyle appHeadingStyle = GoogleFonts.roboto(
-    fontSize: 23,
-    fontWeight: FontWeight.bold,
-  );
+
   static TextStyle appHeadingStylemini =
       GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500);
-  static TextStyle appHeadingStyleLogin = GoogleFonts.roboto(
-      fontSize: 23, fontWeight: FontWeight.bold, color: Colors.orange);
+  static TextStyle appHeadingStyle = GoogleFonts.roboto(
+      fontSize: 40, fontWeight: FontWeight.w500, color: Colors.black87);
   static TextStyle appsignuploginlink =
-      GoogleFonts.roboto(fontSize: 14, color: Colors.blue);
+      GoogleFonts.roboto(fontSize: 14, color: Color(0xff5DB075));
 
   static TextStyle hintfontStyle =
-      GoogleFonts.roboto(fontSize: 14, color: hintColor);
+      GoogleFonts.roboto(fontSize: 16, color: hintColor);
   static TextStyle textStyleprofile = GoogleFonts.roboto(
     fontSize: 14,
     fontWeight: FontWeight.w400,

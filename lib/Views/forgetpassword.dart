@@ -35,21 +35,11 @@ class forgetpassword extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 0),
-                child: Container(
-                  child: Image.asset(
-                    "assets/logo.png",
-                    width: 300,
-                    height: 200,
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Center(
                   child: Text(
                     "Forgot Password?",
-                    style: MyResources.appHeadingStyleLogin,
+                    style: MyResources.appHeadingStyle,
                   ),
                 ),
               ),
