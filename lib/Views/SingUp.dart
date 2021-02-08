@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
-import 'package:macsentry/Views/Login.dart';
 
 import '../constants.dart';
-import 'forgetpassword.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -15,7 +13,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
-
+  String selectedPackage = "7 Days Free";
   /////////////////////////////////////GetX Controller///////////////////////////////////
   AuthController authController = new AuthController();
 
@@ -127,22 +125,39 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding:
                       const EdgeInsets.only(top: 15.0, left: 10, right: 10),
                   child: Container(
+                    decoration: BoxDecoration(
+                        color: MyResources.backgroundColor,
+                        border: Border.all(color: MyResources.primaryColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    //  color: myResources.backgroundColor,
                     width: Get.width,
-                    child: new DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.all(10.0),
-                              borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  style: BorderStyle.solid))),
-                      items: <String>['7 Days Free', 'B', 'C', 'D']
-                          .map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (_) {},
+                    height: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        underline: Text(""),
+                        value: selectedPackage,
+                        focusColor: Colors.blue,
+                        elevation: 12,
+                        items: [
+                          DropdownMenuItem<String>(
+                            child: Text('7 Days Free'),
+                            value: '7 Days Free',
+                          ),
+                          DropdownMenuItem<String>(
+                            child: Text('14 Days Free'),
+                            value: '14 Days Free',
+                          ),
+                        ],
+                        onChanged: (String value) {
+                          print(value);
+                          setState(() {
+                            selectedPackage = value;
+                          });
+                        },
+                        hint: Text('Select Item'),
+                      ),
                     ),
                   ),
                 ),

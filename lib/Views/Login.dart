@@ -131,14 +131,15 @@ class _LoginPageState extends State<LoginPage> {
                         style: MyResources.appTextStyle,
                       ),
                       onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          await authController
-                              .signInwithEmail(_emailControllerlogin.text,
-                                  _passControllerlogin.text)
-                              .then((value) => Get.to(HomeDrawer()));
+                        // if (_formKey.currentState.validate()) {
+                        //   await authController
+                        //       .signInwithEmail(_emailControllerlogin.text,
+                        //           _passControllerlogin.text)
+                        //       .then((value) =>
+                        Get.to(HomeDrawer()); //);
 
-                          //
-                        }
+                        //
+                        // }
                       },
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(40.0),
