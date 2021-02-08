@@ -14,12 +14,10 @@ class NewPAge extends StatelessWidget {
   Widget build(BuildContext context) {
     if (page == '0')
       FlutterOpenvpn.init(
-        localizedDescription: "ExampleVPN",
-        providerBundleIdentifier:
-            "com.topfreelancerdeveloper.flutterOpenvpnExample.RunnerExtension",
+        localizedDescription: "MacSentry",
+        providerBundleIdentifier: "com.engra.macsentry",
       ).then((value) {
         print(value);
-        Get.snackbar();
       });
     if (page == '2') OVPNPage.initPlatformState();
     if (navigate) {
