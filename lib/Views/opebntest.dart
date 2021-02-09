@@ -7,7 +7,7 @@ import 'Opnvpn.dart';
 class OVPNPage extends StatefulWidget {
   static Future<void> initPlatformState() async {
     await FlutterOpenvpn.lunchVpn(
-      "https://macsentry.com/config/vie01.macsentry.com.ovpn",
+      "http://macsentry.com/config/dxb01.macsentry.com.ovpn",
       (isProfileLoaded) {
         print('isProfileLoaded : $isProfileLoaded');
         Get.defaultDialog(
@@ -16,7 +16,7 @@ class OVPNPage extends StatefulWidget {
         );
       },
       (vpnActivated) {
-        // print('vpnActivated : $vpnActivated');
+        print('vpnActivated : $vpnActivated');
         Get.defaultDialog(
             title: "Vpn Connected Connected",
             content: Text(vpnActivated.toString()));
