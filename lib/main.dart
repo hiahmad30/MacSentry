@@ -10,7 +10,7 @@ import 'Views/ButtonWidget.dart';
 import 'Views/opebntest.dart';
 
 void main() {
-  runApp(PercentIndicatorWidget());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

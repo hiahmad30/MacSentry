@@ -1,44 +1,32 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:macsentry/Controllers/VpnController.dart';
+import 'package:macsentry/constants.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class PercentIndicatorWidget extends StatefulWidget {
-  PercentIndicatorWidget({Key key}) : super(key: key);
+class MyWidgets extends GetxController {
+  bool isConnected = false;
 
-  @override
-  _PercentIndicatorWidgetState createState() => _PercentIndicatorWidgetState();
-}
+  final vpncon = Get.put(MSVpnController);
 
-class _PercentIndicatorWidgetState extends State {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Percentage Indicator"),
-        ),
-        body: Container(
-            padding: EdgeInsets.all(25.0),
-            child: Column(
-              children: [
-                CircularPercentIndicator(
-                  progressColor: Colors.redAccent,
-                  percent: 0.9,
-                  animation: true,
-                  radius: 250.0,
-                  lineWidth: 15.0,
-                  circularStrokeCap: CircularStrokeCap.round,
-                  center: Text("Circle"),
-                ),
-              ],
-            )),
-      ),
-    );
+  Widget buttonWidget() {
+    return Container(
+        padding: EdgeInsets.all(25.0),
+        child: CircularPercentIndicator(
+          progressColor: MyResources.loginBtnColor,
+          percent: 0.7,
+          animation: true,
+          radius: 220.0,
+          lineWidth: 15.0,
+          circularStrokeCap: CircularStrokeCap.round,
+          center: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Text(
+              "Connected",
+              style: TextStyle(fontSize: 25),
+            ),
+            radius: 100,
+          ),
+        ));
   }
 }
