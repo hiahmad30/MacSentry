@@ -15,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   bool isConnected;
   final vpnController = Get.put(MSVpnController());
   ///////////////////////////////////////////////
-  String selectedContry = 'Dubai';
+  String selectedContry = 'Canada';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +48,8 @@ class _MainPageState extends State<MainPage> {
                             ? MyResources.loginBtnColor
                             : Colors.red,
                         percent: vpnController.connectLoad.value,
+                        animateFromLastPercent: true,
+                        animationDuration: 200,
                         animation: true,
                         radius: 220.0,
                         lineWidth: 15.0,
@@ -83,17 +85,13 @@ class _MainPageState extends State<MainPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 20.0),
-                            child: Text('Dubai'),
+                            child: Text('Canada'),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  value: 'Dubai',
-                ),
-                DropdownMenuItem<String>(
-                  child: Text('14 Days Free'),
-                  value: '14 Days Free',
+                  value: 'Canada',
                 ),
               ],
               onChanged: (String value) {

@@ -1,23 +1,64 @@
+import 'package:flutter/services.dart';
+import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 
 class MSVpnController extends GetxController {
-  RxString isConneString = 'Not Connected'.obs;
+  RxString isConneString = 'DISCONNECTED'.obs;
   RxBool isConnected = false.obs;
-  RxDouble connectLoad = 0.3.obs;
+  RxDouble connectLoad = 0.0.obs;
 
   Future connectVpn() async {
-    await Future.delayed(1.seconds);
-    connectLoad.value = 0.5;
+    isConneString.value = 'CONNECTING';
+    if (isConnected.value == false) {
+      FlutterOpenvpn.init(
+        localizedDescription: "MacSentry",
+        providerBundleIdentifier: "com.engra.macsentry",
+      ).then((value) {
+        print(value);
+      });
+      connectLoad.value = 0.5;
+      await initPlatformState();
+    } else if (isConnected.value == true) {
+      await FlutterOpenvpn.stopVPN().then((value) {});
+    }
 
-    await Future.delayed(2.seconds);
-    connectLoad.value = 0.7;
-    await Future.delayed(1.seconds);
-    connectLoad.value = 0.8;
-    await Future.delayed(1.seconds);
-
-    await Future.delayed(1.seconds);
     connectLoad.value = 1.0;
-    isConneString = isConnected.value ? 'Not Connected'.obs : 'Connected'.obs;
-    isConnected.value = isConnected.value ? false : true;
+  }
+
+  Future<void> initPlatformState() async {
+    var contennt = await rootBundle.loadString('assets/1.ovpn');
+    await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
+      print('isProfileLoaded : $isProfileLoaded');
+      // Get.defaultDialog(
+      //   title: "Profile Connected",
+      //   content: Text(isProfileLoaded.toString()),
+      // );
+    }, (vpnActivated) {
+      print('vpnActivated : $vpnActivated');
+      if (vpnActivated == 'DISCONNECTED') {
+        isConneString.value = 'DISCONNECTED';
+        if (connectLoad.value != 1.0) connectLoad.value = 1.0;
+        isConnected.value = false;
+      } else if (vpnActivated == 'CONNECTED') {
+        isConnected.value = true;
+        isConneString.value = 'CONNECTED';
+      }
+    },
+        user: 'pkalos@gmail.com1',
+        pass: 'iQtU0U(3aQ[00d',
+        onConnectionStatusChanged:
+            (duration, lastPacketRecieve, byteIn, byteOut) => print(byteIn),
+        expireAt: DateTime.now().add(
+          Duration(
+            minutes: 1,
+          ),
+        ));
+  }
+
+  @override
+  void onClose() {
+    FlutterOpenvpn.stopVPN();
+    // TODO: implement onClose
+    super.onClose();
   }
 }

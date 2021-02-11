@@ -67,7 +67,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      "assets/profile.png",
+                      "assets/logo.png",
                       width: 80,
                       height: 80,
                       fit: BoxFit.fill,
@@ -110,31 +110,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>DashBoard()));
                 //(context,
                 //  MaterialPageRoute(builder: (context) => DashBoard()));
-              },
-            ),
-            ListTile(
-              dense: true,
-              /*  selected: true,*/
-              title: Text(
-                "Events",
-                style: MyResources.myTextStyle,
-              ),
-              leading: Icon(Icons.event, color: eventsColor),
-              onTap: () {
-                setState(() {
-                  // _widget = EventScreen();
-                  _title = "Events";
-                  eventsColor = Colors.blue;
-
-                  teamsColor = Colors.grey;
-                  dashboardColor = Colors.grey;
-                  galleryColor = Colors.grey;
-                  announcementColor = Colors.grey;
-                });
-                Navigator.pop(context);
-
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => EventScreen()));
               },
             ),
             ListTile(
