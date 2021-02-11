@@ -50,7 +50,7 @@ class AuthController extends GetxController {
       update();
       Get.back();
 
-      Get.to(HomeDrawer());
+      Get.offAll(HomeDrawer());
     } catch (ex) {
       print(ex.toString());
       Get.back();
