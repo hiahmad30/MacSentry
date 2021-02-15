@@ -12,10 +12,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  bool isConnected;
   final vpnController = Get.put(MSVpnController());
   ///////////////////////////////////////////////
-  String selectedContry = 'Canada';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,37 +70,39 @@ class _MainPageState extends State<MainPage> {
                 await vpnController.connectVpn();
               },
             ),
-            DropdownButton<String>(
-              isExpanded: true,
-              underline: Text(""),
-              value: selectedContry,
-              focusColor: Colors.blue,
-              elevation: 12,
-              items: [
-                DropdownMenuItem<String>(
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text('Canada'),
-                          ),
-                        ],
-                      ),
-                    ],
+            Obx(
+              () => DropdownButton<String>(
+                isExpanded: true,
+                underline: Text(""),
+                value: vpnController.selectedContry.value,
+                focusColor: Colors.blue,
+                elevation: 12,
+                items: [
+                  DropdownMenuItem<String>(
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text('Canada'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    value: 'Canada',
                   ),
-                  value: 'Canada',
-                ),
-              ],
-              onChanged: (String value) {
-                print(value);
-                setState(() {
-                  selectedContry = value;
-                });
-              },
-              hint: Text('Select Item'),
-            ),
+                ],
+                onChanged: (String value) {
+                  print(value);
+                  setState(() {
+                    vpnController.selectedContry.value = value;
+                  });
+                },
+                hint: Text('Select Item'),
+              ),
+            )
           ],
         )),
         //    [Your content here]
