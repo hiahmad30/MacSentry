@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 
@@ -6,17 +7,19 @@ import 'Opnvpn.dart';
 
 class OVPNPage extends StatefulWidget {
   static Future<void> initPlatformState() async {
+    var contennt = await rootBundle.loadString('assets/1.ovpn');
+
     await FlutterOpenvpn.lunchVpn(
-      "https://macsentry.com/config/vie01.macsentry.com.ovpn",
+      contennt,
       (isProfileLoaded) {
         print('isProfileLoaded : $isProfileLoaded');
-        Get.defaultDialog(
-          title: "Profile Connected",
-          content: Text(isProfileLoaded.toString()),
-        );
+        // Get.defaultDialog(
+        //   title: "Profile Connected",
+        //   content: Text(isProfileLoaded.toString()),
+        // );
       },
       (vpnActivated) {
-        // print('vpnActivated : $vpnActivated');
+        print('vpnActivated : $vpnActivated');
         Get.defaultDialog(
             title: "Vpn Connected Connected",
             content: Text(vpnActivated.toString()));

@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(forgetpassword());
+                    //   Get.to(forgetpassword());
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(

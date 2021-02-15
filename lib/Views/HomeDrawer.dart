@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
+import 'package:macsentry/Views/Login.dart';
 import 'package:macsentry/Views/MainPage.dart';
 
 import '../constants.dart';
@@ -25,22 +26,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_title),
-        centerTitle: true,
-        actions: <Widget>[
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.logout,
-          //     color: Colors.white,
-          //   ),
-          //   onPressed: () async {
-          //     await _auth.signOut();
-          //     // do something
-          //   },
-          // )
-        ],
-        //actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0), // here the desired height
+        child: AppBar(
+          title: Container(
+            child: Text(
+              _title,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          centerTitle: true,
+          actions: <Widget>[
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.logout,
+            //     color: Colors.white,
+            //   ),
+            //   onPressed: () async {
+            //     await _auth.signOut();
+            //     // do something
+            //   },
+            // )
+          ],
+          //actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
+        ),
       ),
       drawer: Drawer(
           child: SingleChildScrollView(
@@ -58,7 +67,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      "assets/profile.png",
+                      "assets/logo.png",
                       width: 80,
                       height: 80,
                       fit: BoxFit.fill,
@@ -90,7 +99,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
               onTap: () {
                 setState(() {
                   //  _widget = DashBoard();
-                  _title = "Dashboard";
+                  _title = "MacSentry VPN";
                   eventsColor = Colors.grey;
                   teamsColor = Colors.grey;
                   galleryColor = Colors.grey;
@@ -105,70 +114,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             ListTile(
               dense: true,
-              /*  selected: true,*/
               title: Text(
-                "Events",
-                style: MyResources.myTextStyle,
-              ),
-              leading: Icon(Icons.event, color: eventsColor),
-              onTap: () {
-                setState(() {
-                  // _widget = EventScreen();
-                  _title = "Events";
-                  eventsColor = Colors.blue;
-
-                  teamsColor = Colors.grey;
-                  dashboardColor = Colors.grey;
-                  galleryColor = Colors.grey;
-                  announcementColor = Colors.grey;
-                });
-                Navigator.pop(context);
-
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => EventScreen()));
-              },
-            ),
-            ListTile(
-              dense: true,
-              // selected: true,
-              title: Text(
-                "Teams",
-                style: MyResources.myTextStyle,
-              ),
-              leading: Icon(Icons.group, color: teamsColor),
-              onTap: () {
-                setState(() {
-                  // _widget = TeamsScreen();
-                  _title = "Teams";
-                  eventsColor = Colors.grey;
-                  teamsColor = Colors.blue;
-                  announcementColor = Colors.grey;
-                  dashboardColor = Colors.grey;
-                  galleryColor = Colors.grey;
-                });
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              dense: true,
-              title: Text(
-                "Reports",
-                style: MyResources.myTextStyle,
-              ),
-              leading: Icon(Icons.receipt_long),
-              onTap: () {},
-            ),
-            ListTile(
-              dense: true,
-              title: Text(
-                "Gallery",
+                "Logout",
                 style: MyResources.myTextStyle,
               ),
               leading: Icon(Icons.image, color: galleryColor),
               onTap: () {
                 setState(() {
                   //   _widget = GalleryScreen();
-                  _title = "Gallery";
+                  _title = "Logout";
                   galleryColor = Colors.blue;
                   eventsColor = Colors.grey;
                   teamsColor = Colors.grey;
@@ -176,6 +130,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   dashboardColor = Colors.grey;
                 });
                 Navigator.pop(context);
+                Get.defaultDialog(
+                  title: 'Log out',
+                  textConfirm: 'Yes',
+                  content: Text('Are you sure to log out?'),
+                  onConfirm: () {
+                    Get.offAll(LoginPage());
+                  },
+                );
               },
             ),
           ],

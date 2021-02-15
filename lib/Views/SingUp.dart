@@ -147,11 +147,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           DropdownMenuItem<String>(
                             child: Text('1 Month (\$12.99)'),
-                            value: '1 Month (\$12.99)',
+                            value: '1 Month (12.99)',
                           ),
                           DropdownMenuItem<String>(
-                            child: Text('1 Year (\$99.99)'),
-                            value: '1 Year (\$99.99)',
+                            child: Text('1 Month (\$12.99)'),
+                            value: '1 Year (99.99)',
                           ),
                         ],
                         onChanged: (String value) {

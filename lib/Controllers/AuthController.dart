@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 import 'package:macsentry/Views/Login.dart';
+import 'package:macsentry/Views/MainPage.dart';
 
 //import 'package:mongo_dart/mongo_dart.dart';
 
@@ -28,11 +29,11 @@ class AuthController extends GetxController {
       update();
     }
     if (firebaseAuth.currentUser == null) {
-      return LoginPage();
+      return MainPage();
     } else {
       firebaseUser = firebaseAuth.currentUser;
       update();
-
+      return MainPage();
       //TODO
     }
   }
@@ -50,7 +51,7 @@ class AuthController extends GetxController {
       update();
       Get.back();
 
-      Get.to(HomeDrawer());
+      Get.offAll(HomeDrawer());
     } catch (ex) {
       print(ex.toString());
       Get.back();
