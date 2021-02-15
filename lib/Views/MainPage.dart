@@ -71,36 +71,40 @@ class _MainPageState extends State<MainPage> {
               },
             ),
             Obx(
-              () => DropdownButton<String>(
-                isExpanded: true,
-                underline: Text(""),
-                value: vpnController.selectedContry.value,
-                focusColor: Colors.blue,
-                elevation: 12,
-                items: [
-                  DropdownMenuItem<String>(
-                    child: Row(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
-                              child: Text('Canada'),
-                            ),
-                          ],
-                        ),
-                      ],
+              () => Container(
+                color: Colors.white,
+                child: DropdownButton<String>(
+                  dropdownColor: Colors.white,
+                  isExpanded: true,
+                  underline: Text(""),
+                  value: vpnController.selectedContry.value,
+                  focusColor: Colors.blue,
+                  elevation: 12,
+                  items: [
+                    DropdownMenuItem<String>(
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Text('Canada'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      value: 'Canada',
                     ),
-                    value: 'Canada',
-                  ),
-                ],
-                onChanged: (String value) {
-                  print(value);
-                  setState(() {
-                    vpnController.selectedContry.value = value;
-                  });
-                },
-                hint: Text('Select Item'),
+                  ],
+                  onChanged: (String value) {
+                    print(value);
+                    setState(() {
+                      vpnController.selectedContry.value = value;
+                    });
+                  },
+                  hint: Text('Select Item'),
+                ),
               ),
             )
           ],

@@ -6,33 +6,31 @@ class MyResources {
   static Color backgroundColor = Colors.white;
   static Color appBarActionsColor = Colors.white;
 
-  static Color HeadingColor = Colors.orange;
-  static Color coachHeading = Colors.blue;
   static Color sideBarColor = Color(0xfff5f5f5);
   static Color buttonColor = Color(0xffebebeb);
   static Color hintColor = Color(0xffd2d2d2);
   static Color loginBtnColor = Color(0xff5DB075);
   static Color registerBtnColor = Color(0xff30BCED);
 
-  static TextStyle appTextStyle = GoogleFonts.roboto(
+  static TextStyle appTextStyle = TextStyle(
     fontSize: 16,
     color: Colors.white,
   );
 
   static TextStyle appHeadingStylemini =
       GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500);
-  static TextStyle appHeadingStyle = GoogleFonts.roboto(
+  static TextStyle appHeadingStyle = TextStyle(
       fontSize: 40, fontWeight: FontWeight.w500, color: Colors.black87);
   static TextStyle appsignuploginlink =
       GoogleFonts.roboto(fontSize: 14, color: Color(0xff5DB075));
 
   static TextStyle hintfontStyle =
       GoogleFonts.roboto(fontSize: 16, color: hintColor);
-  static TextStyle textStyleprofile = GoogleFonts.roboto(
+  static TextStyle textStyleprofile = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
-  static TextStyle myTextStyle = GoogleFonts.roboto(
+  static TextStyle myTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
