@@ -6,7 +6,7 @@ class MSVpnController extends GetxController {
   RxString isConneString = 'DISCONNECTED'.obs;
   RxBool isConnected = false.obs;
   RxDouble connectLoad = 0.0.obs;
-
+  RxString selectedContry = 'Canada'.obs;
   Future connectVpn() async {
     isConneString.value = 'CONNECTING';
     if (isConnected.value == false) {
@@ -18,17 +18,27 @@ class MSVpnController extends GetxController {
       });
       connectLoad.value = 0.5;
       await initPlatformState();
-    } else if (isConnected.value == true) {
-      await FlutterOpenvpn.stopVPN().then((value) {});
     }
 
     connectLoad.value = 1.0;
+  }
+
+  Future disconnectVpn() async {
+    isConneString.value = 'DISCONNECTING';
+    connectLoad.value = 0.5;
+    if (isConnected.value == true) {
+      await FlutterOpenvpn.stopVPN().then((value) {
+        connectLoad.value = 1.0;
+        isConneString.value = 'CONNECT';
+      });
+    }
   }
 
   Future<void> initPlatformState() async {
     var contennt = await rootBundle.loadString('assets/1.ovpn');
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
+      connectLoad.value = 0.5;
       // Get.defaultDialog(
       //   title: "Profile Connected",
       //   content: Text(isProfileLoaded.toString()),
