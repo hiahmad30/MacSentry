@@ -105,8 +105,16 @@ class _LoginPageState extends State<LoginPage> {
                           child:
                               // Based on passwordVisible state choose the icon
                               _passwordVisible1
-                                  ? Container(child: Text("Show"))
-                                  : Container(child: Text("Hide")),
+                                  ? Container(
+                                      child: Text(
+                                      "Show",
+                                      style: TextStyle(
+                                          color: MyResources.loginBtnColor),
+                                    ))
+                                  : Container(
+                                      child: Text(
+                                      "Hide",
+                                    )),
                           onTap: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
                             setState(() {

@@ -179,9 +179,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          authController.signInwithEmail(
-                              _emailControllerlogin.text,
-                              _passControllerlogin.text);
+                          // authController.signInwithEmail(
+                          //     _emailControllerlogin.text,
+                          //     _passControllerlogin.text);
 
                           // Get.to();
                         }

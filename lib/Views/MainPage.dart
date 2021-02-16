@@ -111,7 +111,16 @@ class _MainPageState extends State<MainPage> {
                         ),
                       )),
                 onTap: () async {
-                  Get.to(LoginPage());
+                  if (vpnController.isConnected.value) {
+                    if (vpnController.userEmail.value == null &&
+                        vpnController.pass.value == null)
+                      Get.to(LoginPage());
+                    else {
+                      vpnController.connectVpn(vpnController.userEmail.value,
+                          vpnController.pass.value);
+                    }
+                  } else
+                    vpnController.disconnectVpn();
                   //
                 },
               ),
