@@ -7,7 +7,6 @@ import 'package:macsentry/constants.dart';
 
 import 'Controllers/AuthController.dart';
 import 'Views/ButtonWidget.dart';
-import 'Views/opebntest.dart';
 
 void main() {
   runApp(MyApp());

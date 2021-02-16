@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
+import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 
 import '../constants.dart';
@@ -18,7 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _autoValidate = false;
 
   /////////////////////////////////////GetX Controller///////////////////////////////////
-  AuthController authController = new AuthController();
+  final authController = Get.put(AuthController());
+  final vpnController = Get.put(MSVpnController());
 
   /////////////////////////////////Controllers////////////////////////////////////////////////////////
   TextEditingController _emailControllerlogin = TextEditingController();
@@ -132,10 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          await authController
-                              .signInwithEmail(_emailControllerlogin.text,
-                                  _passControllerlogin.text)
-                              .then((value) => Get.to(HomeDrawer()));
+                          Get.back();
+                          await vpnController.connectVpn(
+                              _emailControllerlogin.text,
+                              _passControllerlogin.text);
                         }
                       },
                       shape: new RoundedRectangleBorder(

@@ -6,10 +6,9 @@ class MSVpnController extends GetxController {
   RxString isConneString = 'Connect'.obs;
   //TODO
   RxBool isConnected = false.obs;
-  RxDouble connectLoad = 0.0.obs;
+  RxDouble connectLoad = 1.0.obs;
   RxString selectedContry = 'Canada'.obs;
-  Future connectVpn() async {
-    isConneString.value = 'CONNECTING';
+  Future connectVpn(String _email, String _pass) async {
     if (isConnected.value == false) {
       FlutterOpenvpn.init(
         localizedDescription: "MacSentry",
@@ -18,24 +17,24 @@ class MSVpnController extends GetxController {
         print(value);
       });
       connectLoad.value = 0.5;
-      await initPlatformState();
+      await initPlatformState(_email, _pass);
     }
 
     connectLoad.value = 1.0;
   }
 
   Future disconnectVpn() async {
-    isConneString.value = 'DISCONNECTING';
+    isConneString.value = 'Disconnecting';
     connectLoad.value = 0.5;
     if (isConnected.value == true) {
       await FlutterOpenvpn.stopVPN().then((value) {
         connectLoad.value = 1.0;
-        isConneString.value = 'CONNECT';
+        isConneString.value = 'Connect';
       });
     }
   }
 
-  Future<void> initPlatformState() async {
+  Future<void> initPlatformState(String email, String password) async {
     var contennt = await rootBundle.loadString('assets/1.ovpn');
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
@@ -55,8 +54,8 @@ class MSVpnController extends GetxController {
         isConneString.value = 'CONNECTED';
       }
     },
-        user: 'pkalos@gmail.com1',
-        pass: 'iQtU0U(3aQ[00d',
+        user: email,
+        pass: password,
         onConnectionStatusChanged:
             (duration, lastPacketRecieve, byteIn, byteOut) => print(byteIn),
         expireAt: DateTime.now().add(
