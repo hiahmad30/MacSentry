@@ -60,8 +60,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (val) {
                       if (val.length == 0)
                         return "Please enter email";
-                      else if (!val.contains("@"))
-                        return "Please enter valid email";
                       else
                         return null;
                     },

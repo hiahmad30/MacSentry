@@ -65,8 +65,6 @@ class _LoginPageState extends State<LoginPage> {
                     validator: (val) {
                       if (val.length == 0)
                         return "Please enter email";
-                      else if (!val.contains("@"))
-                        return "Please enter valid email";
                       else
                         return null;
                     },
@@ -142,10 +140,13 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          Get.back();
-                          await vpnController.connectVpn(
-                              _emailControllerlogin.text,
-                              _passControllerlogin.text);
+                          await vpnController
+                              .connectVpn(_emailControllerlogin.text,
+                                  _passControllerlogin.text)
+                              .then((value) {
+                            Get.back();
+                            Get.off(HomeDrawer());
+                          });
                         }
                       },
                       shape: new RoundedRectangleBorder(

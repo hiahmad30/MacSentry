@@ -76,16 +76,16 @@ class _MainPageState extends State<MainPage> {
                     : Container(
                         padding: EdgeInsets.all(25.0),
                         child: CircularPercentIndicator(
-                          progressColor: vpnController.isConnected.value
-                              ? MyResources.loginBtnColor
-                              : Colors.red,
+                          progressColor: //vpnController.isConnected.value                              ?
+                              MyResources.loginBtnColor,
+                          //  : Colors.red,
                           percent: vpnController.connectLoad.value,
                           animateFromLastPercent: true,
-                          animationDuration: 200,
+                          animationDuration: 1000,
                           animation: true,
                           radius: 220.0,
                           lineWidth: 15.0,
-                          circularStrokeCap: CircularStrokeCap.round,
+                          circularStrokeCap: CircularStrokeCap.square,
                           center: CircleAvatar(
                             backgroundColor: Colors.white,
                             child: Column(
@@ -93,16 +93,17 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 vpnController.isConnected.value
                                     ? Container()
-                                    : Text(
-                                        'Tap to',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                Text("Connect",
+                                    : vpnController.isConneString.value ==
+                                            'Connecting'
+                                        ? Container()
+                                        : Text(
+                                            'Tap to',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                Text(vpnController.isConneString.value,
                                     style: TextStyle(
                                       fontSize: 25,
-                                      color: vpnController.isConnected.value
-                                          ? Colors.red
-                                          : MyResources.loginBtnColor,
                                     )),
                               ],
                             ),
@@ -111,7 +112,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                       )),
                 onTap: () async {
-                  if (vpnController.isConnected.value) {
+                  if (!vpnController.isConnected.value) {
                     if (vpnController.userEmail.value == null &&
                         vpnController.pass.value == null)
                       Get.to(LoginPage());
@@ -180,17 +181,17 @@ class _MainPageState extends State<MainPage> {
                     () => Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 8.0, right: 8),
                           child: vpnController.isConnected.value
                               ? Image.asset(
                                   'assets/connectedLock.png',
-                                  width: 68,
-                                  height: 68,
+                                  width: 55,
+                                  height: 55,
                                 )
                               : Image.asset(
                                   'assets/disconnectedLock.png',
-                                  width: 68,
-                                  height: 68,
+                                  width: 60,
+                                  height: 60,
                                 ),
                         ),
                         Column(

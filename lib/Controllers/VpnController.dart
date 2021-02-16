@@ -9,7 +9,7 @@ class MSVpnController extends GetxController {
   RxBool isConnected = false.obs;
   RxString userEmail = ''.obs;
   RxString pass = ''.obs;
-  RxDouble connectLoad = 1.0.obs;
+  RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = 'Canada'.obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   Future connectVpn(String _email, String _pass) async {
@@ -18,28 +18,25 @@ class MSVpnController extends GetxController {
         localizedDescription: "MacSentry",
         providerBundleIdentifier: "com.engra.macsentry",
       ).then((value) {
-        print(value);
+        isConneString.value = 'Connecting';
       });
-      connectLoad.value = 0.5;
+
       await initPlatformState(_email, _pass);
     }
-
-    connectLoad.value = 1.0;
   }
 
   Future disconnectVpn() async {
     isConneString.value = 'Disconnecting';
-    // connectLoad.value = 0.5;
+
     if (isConnected.value == true) {
-      await FlutterOpenvpn.stopVPN().then((value) {
-        // connectLoad.value = 1.0;
-      });
+      await FlutterOpenvpn.stopVPN().then((value) {});
     }
   }
 
   Future<void> initPlatformState(String email, String password) async {
-    var contennt = await rootBundle.loadString('assets/1.ovpn');
     await saveCred(email, password);
+    var contennt = await rootBundle.loadString('assets/1.ovpn');
+
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
       //connectLoad.value = 0.5;
@@ -49,11 +46,21 @@ class MSVpnController extends GetxController {
       // );
     }, (vpnActivated) {
       print('vpnActivated : $vpnActivated');
+      if (vpnActivated == 'WAIT') {
+        connectLoad.value = 0.4;
+      }
+      if (vpnActivated == 'AUTH') {
+        connectLoad.value = 0.6;
+      }
+      if (vpnActivated == 'ASSIGN_IP') {
+        connectLoad.value = 0.8;
+      }
       if (vpnActivated == 'DISCONNECTED') {
         isConneString.value = 'Connect';
-        if (connectLoad.value != 1.0) connectLoad.value = 1.0;
+        if (connectLoad.value != 0.0) connectLoad.value = 0.0;
         isConnected.value = false;
       } else if (vpnActivated == 'CONNECTED') {
+        if (connectLoad.value != 1.0) connectLoad.value = 1.0;
         isConnected.value = true;
         isConneString.value = 'Disconnect';
       }
@@ -85,6 +92,17 @@ class MSVpnController extends GetxController {
     try {
       userEmail.value = prefs.getString('userName');
       pass.value = prefs.getString('password');
+    } catch (ex) {
+      print(ex.toString());
+      return false;
+    }
+  }
+
+  Future<void> logOutCred() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      prefs.remove('password');
+      prefs.remove('userName');
     } catch (ex) {
       print(ex.toString());
       return false;
