@@ -6,7 +6,6 @@ import 'package:macsentry/Views/Login.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../constants.dart';
-import 'ButtonWidget.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -115,7 +114,7 @@ class _MainPageState extends State<MainPage> {
                   if (!vpnController.isConnected.value) {
                     if (vpnController.userEmail.value == null &&
                         vpnController.pass.value == null)
-                      Get.to(LoginPage());
+                      Get.to(() => LoginPage());
                     else {
                       vpnController.connectVpn(vpnController.userEmail.value,
                           vpnController.pass.value);

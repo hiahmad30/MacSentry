@@ -110,6 +110,14 @@ class MSVpnController extends GetxController {
   }
 
   @override
+  Future<void> onReady() async {
+    await getCred();
+    // TODO: implement onReady
+    super.onReady();
+  }
+  //
+
+  @override
   void onClose() {
     FlutterOpenvpn.stopVPN();
     // TODO: implement onClose

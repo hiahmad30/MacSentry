@@ -64,13 +64,13 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
                       if (val.length == 0)
-                        return "Please enter email";
+                        return "Please enter User ID";
                       else
                         return null;
                     },
                     decoration: InputDecoration(
                       //Add th Hint text here.
-                      hintText: "Email",
+                      hintText: "User",
                       hintStyle: MyResources.hintfontStyle,
 
                       border: OutlineInputBorder(
@@ -143,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                           await vpnController
                               .connectVpn(_emailControllerlogin.text,
                                   _passControllerlogin.text)
-                              .then((value) {
+                              .then((value) async {
+                            await vpnController.getCred();
                             Get.back();
                             Get.off(HomeDrawer());
                           });

@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:macsentry/constants.dart';
 
 import 'Controllers/AuthController.dart';
-import 'Views/ButtonWidget.dart';
 
 void main() {
   runApp(MyApp());
