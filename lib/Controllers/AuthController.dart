@@ -29,11 +29,11 @@ class AuthController extends GetxController {
       update();
     }
     if (firebaseAuth.currentUser == null) {
-      return MainPage();
+      return HomeDrawer();
     } else {
       firebaseUser = firebaseAuth.currentUser;
       update();
-      return MainPage();
+      return HomeDrawer();
       //TODO
     }
   }

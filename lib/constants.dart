@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 class MyResources {
   static Color primaryColor = Color(0xfff5f5f5);
   static Color backgroundColor = Colors.white;
-  static Color appBarActionsColor = Colors.white;
 
   static Color sideBarColor = Color(0xfff5f5f5);
   static Color buttonColor = Color(0xffebebeb);
@@ -16,16 +15,13 @@ class MyResources {
     fontSize: 16,
     color: Colors.white,
   );
-
-  static TextStyle appHeadingStylemini =
-      GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500);
   static TextStyle appHeadingStyle = TextStyle(
       fontSize: 40, fontWeight: FontWeight.w500, color: Colors.black87);
   static TextStyle appsignuploginlink =
-      GoogleFonts.roboto(fontSize: 14, color: Color(0xff5DB075));
+      GoogleFonts.inter(fontSize: 14, color: Color(0xff5DB075));
 
   static TextStyle hintfontStyle =
-      GoogleFonts.roboto(fontSize: 16, color: hintColor);
+      GoogleFonts.inter(fontSize: 16, color: hintColor);
   static TextStyle textStyleprofile = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

@@ -3,7 +3,8 @@ import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 
 class MSVpnController extends GetxController {
-  RxString isConneString = 'DISCONNECTED'.obs;
+  RxString isConneString = 'Connect'.obs;
+  //TODO
   RxBool isConnected = false.obs;
   RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = 'Canada'.obs;

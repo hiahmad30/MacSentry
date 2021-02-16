@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
 import 'package:macsentry/Views/Login.dart';
 import 'package:macsentry/Views/MainPage.dart';
@@ -18,7 +19,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
   Color teamsColor = Colors.grey;
   Color galleryColor = Colors.grey;
   Color announcementColor = Colors.grey;
-  String _title = "Dashboard";
+  String _title = "MacSentry VPN";
 
   Widget _widget = MainPage();
 
@@ -32,6 +33,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           title: Container(
             child: Text(
               _title,
+              style: GoogleFonts.poppins(fontSize: 30),
               textAlign: TextAlign.center,
             ),
           ),

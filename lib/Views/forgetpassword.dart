@@ -19,21 +19,21 @@ class forgetpassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyResources.backgroundColor,
-      appBar: AppBar(
-        title: Container(
-          child: Text(
-            'Verification',
-            style: GoogleFonts.roboto(),
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           autovalidate: true,
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Center(
+                  child: Text(
+                    "Log In",
+                    style: MyResources.appHeadingStyle,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Center(
@@ -86,7 +86,7 @@ class forgetpassword extends StatelessWidget {
                     textColor: Colors.white,
                     color: Colors.blue,
                     child: Text(
-                      "Send Verification Code",
+                      "Send Verification Link",
                     ),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
