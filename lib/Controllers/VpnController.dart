@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:macsentry/Models/ServerListModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MSVpnController extends GetxController {
@@ -15,8 +18,13 @@ class MSVpnController extends GetxController {
   RxString pass = ''.obs;
   RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = 'Canada'.obs;
+  Rx<ServerListModel> selectedServer =
+      ServerListModel('Dubai', 'dxb01.macsentry.com', '').obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  Future connectVpn(String _email, String _pass) async {
+  Future connectVpn(
+    String _email,
+    String _pass,
+  ) async {
     if (isConnected.value == false) {
       FlutterOpenvpn.init(
         localizedDescription: "MacSentry",
@@ -24,8 +32,7 @@ class MSVpnController extends GetxController {
       ).then((value) {
         isConneString.value = 'Connecting';
       });
-
-      await initPlatformState(_email, _pass);
+      await initPlatformState(_email, _pass, selectedServer.value);
     }
   }
 
@@ -37,9 +44,10 @@ class MSVpnController extends GetxController {
     }
   }
 
-  Future<void> initPlatformState(String email, String password) async {
+  Future<void> initPlatformState(
+      String email, String password, ServerListModel serverListModel) async {
     await saveCred(email, password);
-    var contennt = await rootBundle.loadString('assets/1.ovpn');
+    var contennt = await rootBundle.loadString(serverListModel.file);
 
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
@@ -135,7 +143,7 @@ class MSVpnController extends GetxController {
   } ////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
-  List<dynamic> _postList = new List<dynamic>();
+  List<ServerListModel> serverList = new List<ServerListModel>().obs;
 
   Future<List<dynamic>> fetchPost() async {
     try {
@@ -147,19 +155,38 @@ class MSVpnController extends GetxController {
 
         Map<String, dynamic> values = json.decode(response.body);
         if (values != null) {
-          values.forEach((key, value) {
-            // Map<String, String> map = values[i];
-            //  _postList.add(Post.fromJson(map));
-            debugPrint('Id-------${key.toString()}');
+          int count = 0;
+          values.forEach((key, value) async {
+            File ofile = await fetchOVPn(values[key]);
+            serverList.add(ServerListModel(key, values[key], ofile));
+            debugPrint(
+                'Countries-------${serverList[count].country.toString()}=>  Urls-------${serverList[count].url.toString()}');
+            count++;
           });
         }
-        //  return _postList;
+        print('object');
       } else {
         // If that call was not successful, throw an error.
         throw Exception('Failed to load post');
       }
     } catch (ex) {
       print(ex.toString());
+    }
+  }
+
+  static var httpClient = new HttpClient();
+
+  fetchOVPn(String serverurl) async {
+    try {
+      var request = await httpClient
+          .getUrl(Uri.parse('http://macsentry.com/config/$serverurl.ovpn'));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      File ovpnFile = File.fromRawPath(bytes);
+      print('File Fetched=>...........${ovpnFile.toString()}');
+      return ovpnFile;
+    } catch (e) {
+      print('File Fetching Error=>.................${e.toString()}');
     }
   }
 }

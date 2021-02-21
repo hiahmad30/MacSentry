@@ -37,7 +37,18 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: MyResources.backgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Form(
+            child: Stack(children: [
+          Positioned(
+            top: 40,
+            left: 20,
+            child: Container(
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 20,
+              ),
+            ),
+          ),
+          Form(
             key: _formKey,
             autovalidate: _autoValidate,
             child: Column(
@@ -193,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ],
             ),
           ),
-        ),
+        ])),
       ),
     );
   }

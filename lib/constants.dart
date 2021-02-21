@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MyResources {
   static Color primaryColor = Color(0xfff5f5f5);
-  static Color backgroundColor = Colors.white;
+  static Color backgroundColor = Color(0xfff5f5f5);
 
   static Color sideBarColor = Color(0xfff5f5f5);
   static Color buttonColor = Color(0xffebebeb);
@@ -16,7 +16,7 @@ class MyResources {
     color: Colors.white,
   );
   static TextStyle appHeadingStyle = TextStyle(
-      fontSize: 40, fontWeight: FontWeight.w800, color: Color(0xff555555));
+      fontSize: 30, fontWeight: FontWeight.w600, color: Color(0xff555555));
   static TextStyle appsignuploginlink =
       GoogleFonts.inter(fontSize: 14, color: Color(0xff5DB075));
 
