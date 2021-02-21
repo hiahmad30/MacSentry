@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class MSVpnController extends GetxController {
   RxString isConneString = 'Connect'.obs;
@@ -67,9 +71,46 @@ class MSVpnController extends GetxController {
   }
 
   @override
+  Future<void> onInit() async {
+    await fetchPost();
+    super.onInit();
+  }
+
+  @override
   void onClose() {
     FlutterOpenvpn.stopVPN();
     // TODO: implement onClose
     super.onClose();
+  } ////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////
+  List<dynamic> _postList = new List<dynamic>();
+
+  Future<List<dynamic>> fetchPost() async {
+    try {
+      final response =
+          await http.get('https://www.macsentry.com/config/serverList.php');
+
+      if (response.statusCode == 200) {
+        // If the call to the server was successful, parse the JSON
+        List<Map<String, dynamic>> values = new List<Map<String, dynamic>>();
+        values = json.decode(response.body);
+        if (values.length > 0) {
+          for (int i = 0; i < values.length; i++) {
+            if (values[i] != null) {
+              Map<String, String> map = values[i];
+              //  _postList.add(Post.fromJson(map));
+              debugPrint('Id-------${map.toString()}');
+            }
+          }
+        }
+        return _postList;
+      } else {
+        // If that call was not successful, throw an error.
+        throw Exception('Failed to load post');
+      }
+    } catch (ex) {
+      print(ex.toString());
+    }
   }
 }
