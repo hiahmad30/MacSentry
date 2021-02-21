@@ -91,8 +91,8 @@ class forgetpassword extends StatelessWidget {
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         //  Get.to(VerificationCode());
-                        await _authController
-                            .sendpasswordresetemail1(emailControllerfp.text);
+                        // await _authController
+                        //     .sendpasswordresetemail1(emailControllerfp.text);
                       }
                     },
                     shape: new RoundedRectangleBorder(

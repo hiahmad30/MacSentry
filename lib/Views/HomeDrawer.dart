@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
+import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/Login.dart';
 import 'package:macsentry/Views/MainPage.dart';
 
@@ -131,12 +132,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   announcementColor = Colors.grey;
                   dashboardColor = Colors.grey;
                 });
-                Navigator.pop(context);
+                Get.back();
                 Get.defaultDialog(
                   title: 'Log out',
                   textConfirm: 'Yes',
                   content: Text('Are you sure to log out?'),
                   onConfirm: () {
+                    MSVpnController().logOutCred();
                     Get.offAll(LoginPage());
                   },
                 );

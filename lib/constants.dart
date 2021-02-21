@@ -16,7 +16,7 @@ class MyResources {
     color: Colors.white,
   );
   static TextStyle appHeadingStyle = TextStyle(
-      fontSize: 40, fontWeight: FontWeight.w500, color: Colors.black87);
+      fontSize: 40, fontWeight: FontWeight.w800, color: Color(0xff555555));
   static TextStyle appsignuploginlink =
       GoogleFonts.inter(fontSize: 14, color: Color(0xff5DB075));
 

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
+import 'package:macsentry/Views/Login.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../constants.dart';
-import 'ButtonWidget.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -41,65 +41,87 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                child: Obx(
-                  () => vpnController.isConnected.value
-                      ? Container(
-                          padding: EdgeInsets.all(25.0),
-                          child: CircularPercentIndicator(
-                            progressColor: vpnController.isConnected.value
-                                ? MyResources.loginBtnColor
-                                : Colors.red,
-                            percent: vpnController.connectLoad.value,
-                            animateFromLastPercent: true,
-                            animationDuration: 200,
-                            animation: true,
-                            radius: 220.0,
-                            lineWidth: 15.0,
-                            circularStrokeCap: CircularStrokeCap.round,
-                            center: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  vpnController.isConnected.value
-                                      ? Container()
-                                      : Text(
-                                          'Tap to',
-                                          style:
-                                              TextStyle(color: Colors.black54),
-                                        ),
-                                  Text(vpnController.isConneString.value,
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        color: vpnController.isConnected.value
-                                            ? Colors.red
-                                            : MyResources.loginBtnColor,
-                                      )),
-                                ],
-                              ),
-                              radius: 100,
+                child: Obx(() => vpnController.isConnected.value
+                    ? Center(
+                        child: Container(
+                          child: Stack(
+                              alignment: AlignmentDirectional.centerStart,
+                              children: [
+                                Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset('assets/connected.png')),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Tap to',
+                                        style: TextStyle(
+                                            color: Colors.black45,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Disconnect',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ]),
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(25.0),
+                        child: CircularPercentIndicator(
+                          progressColor: //vpnController.isConnected.value                              ?
+                              MyResources.loginBtnColor,
+                          //  : Colors.red,
+                          percent: vpnController.connectLoad.value,
+                          animateFromLastPercent: true,
+                          animationDuration: 1000,
+                          animation: true,
+                          radius: 220.0,
+                          lineWidth: 15.0,
+                          circularStrokeCap: CircularStrokeCap.square,
+                          center: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                vpnController.isConnected.value
+                                    ? Container()
+                                    : vpnController.isConneString.value ==
+                                            'Connecting'
+                                        ? Container()
+                                        : Text(
+                                            'Tap to',
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          ),
+                                Text(vpnController.isConneString.value,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                    )),
+                              ],
                             ),
-                          ),
-                        )
-                      : Center(
-                          child: Container(
-                            child: Stack(children: [
-                              Container(
-                                  child: Image.asset('assets/connected.png')),
-                              Positioned(
-                                child: Text(
-                                  'Bhai',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ]),
+                            radius: 100,
                           ),
                         ),
-                ),
+                      )),
                 onTap: () async {
-                  await vpnController.connectVpn();
+                  if (!vpnController.isConnected.value) {
+                    if (vpnController.userEmail.value == null &&
+                        vpnController.pass.value == null)
+                      Get.to(() => LoginPage());
+                    else {
+                      vpnController.connectVpn(vpnController.userEmail.value,
+                          vpnController.pass.value);
+                    }
+                  } else
+                    vpnController.disconnectVpn();
+                  //
                 },
               ),
               Padding(
@@ -153,37 +175,48 @@ class _MainPageState extends State<MainPage> {
               color: Colors.white.withOpacity(0.8),
               height: 100,
               child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Image.asset(
-                        'assets/disconnected.png',
-                        width: 68,
-                        height: 68,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Obx(
+                    () => Row(
                       children: [
-                        Text(
-                          'Not Connected',
-                          style: GoogleFonts.montserrat(
-                              fontSize: 28, fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8),
+                          child: vpnController.isConnected.value
+                              ? Image.asset(
+                                  'assets/connectedLock.png',
+                                  width: 55,
+                                  height: 55,
+                                )
+                              : Image.asset(
+                                  'assets/disconnectedLock.png',
+                                  width: 60,
+                                  height: 60,
+                                ),
                         ),
-                        Container(
-                          width: Get.width * 0.7,
-                          child: Text(
-                            'Your Internet connection is not secure, Your data is not encrypted.',
-                            style: GoogleFonts.poppins(fontSize: 14),
-                          ),
-                        )
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              vpnController.isConnected.value
+                                  ? 'Connected'
+                                  : 'Not Connected',
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 28, fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              width: Get.width * 0.7,
+                              child: Text(
+                                vpnController.isConnected.value
+                                    ? 'Your Internet connection secure, and your data & privacy are protected.'
+                                    : 'Your Internet connection is not secure, Your data is not encrypted.',
+                                style: GoogleFonts.poppins(fontSize: 14),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
+                  )),
             ),
           ),
         ],

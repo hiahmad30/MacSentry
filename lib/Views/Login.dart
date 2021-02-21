@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
+import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 
 import '../constants.dart';
@@ -18,7 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _autoValidate = false;
 
   /////////////////////////////////////GetX Controller///////////////////////////////////
-  AuthController authController = new AuthController();
+  final authController = Get.put(AuthController());
+  final vpnController = Get.put(MSVpnController());
 
   /////////////////////////////////Controllers////////////////////////////////////////////////////////
   TextEditingController _emailControllerlogin = TextEditingController();
@@ -62,15 +64,13 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
                       if (val.length == 0)
-                        return "Please enter email";
-                      else if (!val.contains("@"))
-                        return "Please enter valid email";
+                        return "Please enter User ID";
                       else
                         return null;
                     },
                     decoration: InputDecoration(
                       //Add th Hint text here.
-                      hintText: "Email",
+                      hintText: "User",
                       hintStyle: MyResources.hintfontStyle,
 
                       border: OutlineInputBorder(
@@ -103,8 +103,16 @@ class _LoginPageState extends State<LoginPage> {
                           child:
                               // Based on passwordVisible state choose the icon
                               _passwordVisible1
-                                  ? Container(child: Text("Show"))
-                                  : Container(child: Text("Hide")),
+                                  ? Container(
+                                      child: Text(
+                                      "Show",
+                                      style: TextStyle(
+                                          color: MyResources.loginBtnColor),
+                                    ))
+                                  : Container(
+                                      child: Text(
+                                      "Hide",
+                                    )),
                           onTap: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
                             setState(() {
@@ -132,10 +140,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          await authController
-                              .signInwithEmail(_emailControllerlogin.text,
+                          await vpnController
+                              .connectVpn(_emailControllerlogin.text,
                                   _passControllerlogin.text)
-                              .then((value) => Get.to(HomeDrawer()));
+                              .then((value) async {
+                            await vpnController.getCred();
+                            Get.back();
+                            Get.off(HomeDrawer());
+                          });
                         }
                       },
                       shape: new RoundedRectangleBorder(
