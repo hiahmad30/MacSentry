@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
+import 'package:macsentry/Models/ServerListModel.dart';
 import 'package:macsentry/Views/Login.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -137,23 +138,25 @@ class _MainPageState extends State<MainPage> {
                       value: vpnController.selectedContry.value,
                       focusColor: Colors.blue,
                       elevation: 12,
-                      items: [
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: Text('Canada'),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          value: 'Canada',
-                        ),
-                      ],
+                      items: vpnController.serverDropDownItem.value
+                      //  [
+                      //   DropdownMenuItem<String>(
+                      //     child: Row(
+                      //       children: [
+                      //         Row(
+                      //           children: [
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(left: 20.0),
+                      //               child: Text('Canada'),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     value: 'Canada',
+                      //   ),
+                      // ],
+                      ,
                       onChanged: (String value) {
                         print(value);
                         setState(() {

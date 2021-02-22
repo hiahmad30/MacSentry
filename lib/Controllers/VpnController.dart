@@ -17,7 +17,7 @@ class MSVpnController extends GetxController {
   RxString userEmail = ''.obs;
   RxString pass = ''.obs;
   RxDouble connectLoad = 0.0.obs;
-  RxString selectedContry = 'Canada'.obs;
+  RxString selectedContry = 'Vilnus, LT'.obs;
   Rx<ServerListModel> selectedServer =
       ServerListModel('Dubai', 'dxb01.macsentry.com', '').obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +143,13 @@ class MSVpnController extends GetxController {
   } ////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
-  List<ServerListModel> serverList = new List<ServerListModel>().obs;
+  List<ServerListModel> serverList = new List<ServerListModel>();
+  RxList<DropdownMenuItem<String>> serverDropDownItem = [
+    DropdownMenuItem<String>(
+      child: Text('Vilnus, LT'),
+      value: 'Vilnus, LT',
+    )
+  ].obs;
 
   Future<List<dynamic>> fetchPost() async {
     try {
@@ -161,8 +167,13 @@ class MSVpnController extends GetxController {
             serverList.add(ServerListModel(key, values[key], ofile));
             debugPrint(
                 'Countries-------${serverList[count].country.toString()}=>  Urls-------${serverList[count].url.toString()}');
+            serverDropDownItem.add(DropdownMenuItem<String>(
+              child: Text(serverList[count].country.toString()),
+              value: serverList[count].country.toString(),
+            ));
             count++;
           });
+          serverList.forEach((element) {});
         }
         print('object');
       } else {
