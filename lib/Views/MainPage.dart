@@ -138,7 +138,7 @@ class _MainPageState extends State<MainPage> {
                       value: vpnController.selectedContry.value,
                       focusColor: Colors.blue,
                       elevation: 12,
-                      items: vpnController.serverDropDownItem.value
+                      items: vpnController.serverDropDownItem
                       //  [
                       //   DropdownMenuItem<String>(
                       //     child: Row(

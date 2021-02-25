@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   http:
   path_provider: ^1.6.27
+  flag: ^3.2.2
 
 dev_dependencies:
   flutter_test:

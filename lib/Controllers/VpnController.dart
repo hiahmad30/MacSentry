@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,7 @@ class MSVpnController extends GetxController {
   RxString userEmail = ''.obs;
   RxString pass = ''.obs;
   RxDouble connectLoad = 0.0.obs;
-  RxString selectedContry = 'Vilnus, LT'.obs;
+  RxString selectedContry = ''.obs;
   Rx<ServerListModel> selectedServer =
       ServerListModel('Dubai', 'dxb01.macsentry.com', '').obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,8 +147,14 @@ class MSVpnController extends GetxController {
   List<ServerListModel> serverList = new List<ServerListModel>();
   RxList<DropdownMenuItem<String>> serverDropDownItem = [
     DropdownMenuItem<String>(
-      child: Text('Vilnus, LT'),
-      value: 'Vilnus, LT',
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(child: Text('Select a Country')),
+        ),
+      ),
+      value: '',
     )
   ].obs;
 
@@ -168,7 +175,39 @@ class MSVpnController extends GetxController {
             debugPrint(
                 'Countries-------${serverList[count].country.toString()}=>  Urls-------${serverList[count].url.toString()}');
             serverDropDownItem.add(DropdownMenuItem<String>(
-              child: Text(serverList[count].country.toString()),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Container(
+                        width: 30,
+                        height: 30,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Flag(
+                            'Johannesburg',
+                            fit: BoxFit.cover,
+                            height: 30,
+                            width: 30,
+                            replacement: Text("not found"),
+                          ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Container(
+                          child: Text(serverList[count]
+                              .country
+                              .toString()
+                              .substring(
+                                  0,
+                                  serverList[count]
+                                      .country
+                                      .toString()
+                                      .indexOf(',')))),
+                    ),
+                  ],
+                ),
+              ),
               value: serverList[count].country.toString(),
             ));
             count++;
