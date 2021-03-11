@@ -123,14 +123,6 @@ class MSVpnController extends GetxController {
   }
 
   @override
-  Future<void> onReady() async {
-    await getCred();
-    // TODO: implement onReady
-    super.onReady();
-  }
-  //
-
-  @override
   Future<void> onInit() async {
     await fetchPost();
     super.onInit();
@@ -172,8 +164,7 @@ class MSVpnController extends GetxController {
           values.forEach((key, value) async {
             File ofile = await fetchOVPn(values[key]);
             serverList.add(ServerListModel(key, values[key], ofile));
-            debugPrint(
-                'Countries-------${serverList[count].country.toString()}=>  Urls-------${serverList[count].url.toString()}');
+
             serverDropDownItem.add(DropdownMenuItem<String>(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -185,7 +176,9 @@ class MSVpnController extends GetxController {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: Flag(
-                            'Johannesburg',
+                            serverList[count].country.toString().substring(
+                                serverList[count].country.toString().length - 2,
+                                serverList[count].country.toString().length),
                             fit: BoxFit.cover,
                             height: 30,
                             width: 30,
@@ -230,6 +223,20 @@ class MSVpnController extends GetxController {
     try {
       var request = await httpClient
           .getUrl(Uri.parse('http://macsentry.com/config/$serverurl.ovpn'));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      File ovpnFile = File.fromRawPath(bytes);
+      print('File Fetched=>...........${ovpnFile.toString()}');
+      return ovpnFile;
+    } catch (e) {
+      print('File Fetching Error=>.................${e.toString()}');
+    }
+  }
+
+  loginvpn(String serverurl) async {
+    try {
+      var request = await httpClient
+          .getUrl(Uri.parse('http://macsentry.com/appstore/$serverurl.ovpn'));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       File ovpnFile = File.fromRawPath(bytes);
