@@ -122,7 +122,8 @@ class _MainPageState extends State<MainPage> {
                         vpnController.pass.value == null)
                       Get.to(() => LoginPage());
                     else {
-                      vpnController.connectVpn(vpnController.userEmail.value,
+                      await vpnController.connectVpn(
+                          vpnController.userEmail.value,
                           vpnController.pass.value);
                     }
                   } else

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
@@ -93,10 +92,12 @@ class MSVpnController extends GetxController {
 
   /////////////////////////////////sAVE DATA
   Future<bool> saveCred(String username, String password) async {
+    String trId = '122112';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       prefs.setString('userName', username);
-      return prefs.setString('password', password);
+      prefs.setString('password', password);
+      return getHttp(username, password, trId);
     } catch (ex) {
       return false;
     }
@@ -124,7 +125,7 @@ class MSVpnController extends GetxController {
     }
   }
 
-  void getHttp(String email, String pass, String trId) async {
+  Future<bool> getHttp(String email, String pass, String trId) async {
     try {
       final response = await Dio().post(
           "http://macsentry.com/appstore/create.php",
@@ -135,13 +136,16 @@ class MSVpnController extends GetxController {
         print(parsed);
 
         saveCred(parsed['user'], parsed['password']);
+        return true;
       } else {
         Get.defaultDialog(
             title: 'Server Error',
             content: Text(response.statusMessage.toString()));
+        return false;
       }
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
