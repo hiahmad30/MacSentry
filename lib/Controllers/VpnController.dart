@@ -201,8 +201,7 @@ class MSVpnController extends GetxController {
           values.forEach((key, value) async {
             File ofile = await fetchOVPn(values[key]);
             serverList.add(ServerListModel(key, values[key], ofile));
-            debugPrint(
-                'Countries-------${serverList[count].country.toString()}=>  Urls-------${serverList[count].url.toString()}');
+
             serverDropDownItem.add(DropdownMenuItem<String>(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -214,14 +213,13 @@ class MSVpnController extends GetxController {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: Flag(
-                            'US',
+                            serverList[count].country.toString().substring(
+                                serverList[count].country.toString().length - 2,
+                                serverList[count].country.toString().length),
                             fit: BoxFit.cover,
                             height: 30,
                             width: 30,
-                            replacement: Text(
-                              "not found",
-                              style: TextStyle(fontSize: 10),
-                            ),
+                            replacement: Text("not found"),
                           ),
                         )),
                     Padding(
