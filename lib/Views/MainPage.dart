@@ -50,7 +50,11 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 Container(
                                     alignment: Alignment.center,
-                                    child: Image.asset('assets/connected.png')),
+                                    child: Image.asset(
+                                      'assets/connected.png',
+                                      width: 200,
+                                      height: 200,
+                                    )),
                                 Container(
                                   alignment: Alignment.center,
                                   child: Column(
@@ -65,6 +69,7 @@ class _MainPageState extends State<MainPage> {
                                         'Disconnect',
                                         style: TextStyle(
                                             color: Colors.white,
+                                            fontSize: 25,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -76,14 +81,14 @@ class _MainPageState extends State<MainPage> {
                     : Container(
                         padding: EdgeInsets.all(25.0),
                         child: CircularPercentIndicator(
-                          progressColor: //vpnController.isConnected.value                              ?
+                          progressColor: //vpnController .isConnected.value                              ?
                               MyResources.loginBtnColor,
                           //  : Colors.red,
                           percent: vpnController.connectLoad.value,
                           animateFromLastPercent: true,
                           animationDuration: 1000,
                           animation: true,
-                          radius: 220.0,
+                          radius: 200.0,
                           lineWidth: 15.0,
                           circularStrokeCap: CircularStrokeCap.square,
                           center: CircleAvatar(
@@ -127,7 +132,7 @@ class _MainPageState extends State<MainPage> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 60),
+                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 40),
                 child: Obx(
                   () => Container(
                     color: Colors.white,

@@ -1,6 +1,6 @@
 class ServerListModel {
-  final country;
-  final url;
+  final String country;
+  final String url;
   final file;
 
   ServerListModel(this.country, this.url, this.file);

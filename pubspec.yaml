@@ -38,6 +38,7 @@ dependencies:
   http:
   path_provider: ^1.6.27
   flag: ^3.2.2
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

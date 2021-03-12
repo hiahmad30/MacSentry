@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,8 @@ class MSVpnController extends GetxController {
   Future<void> initPlatformState(
       String email, String password, ServerListModel serverListModel) async {
     await saveCred(email, password);
-    var contennt = await rootBundle.loadString(serverListModel.file);
+    var contennt = await rootBundle.loadString(await fetchOVPn(
+        "${serverListModel.file}.ovpn")); //serverListModel.file);
 
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
@@ -103,7 +105,7 @@ class MSVpnController extends GetxController {
   Future<void> getCred() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      userEmail.value = prefs.getString('userName');
+      userEmail.value = prefs.getString('user');
       pass.value = prefs.getString('password');
     } catch (ex) {
       print(ex.toString());
@@ -115,16 +117,38 @@ class MSVpnController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       prefs.remove('password');
-      prefs.remove('userName');
+      prefs.remove('user');
     } catch (ex) {
       print(ex.toString());
       return false;
     }
   }
 
+  void getHttp(String email, String pass, String trId) async {
+    try {
+      final response = await Dio().post(
+          "http://macsentry.com/appstore/create.php",
+          data: {'email': email, 'password': pass, 'transactionId': trId});
+      if (response.statusMessage == 'OK') {
+        final Map parsed = json.decode(response.toString());
+
+        print(parsed);
+
+        saveCred(parsed['user'], parsed['password']);
+      } else {
+        Get.defaultDialog(
+            title: 'Server Error',
+            content: Text(response.statusMessage.toString()));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Future<void> onReady() async {
     await getCred();
+
     // TODO: implement onReady
     super.onReady();
   }
@@ -133,6 +157,7 @@ class MSVpnController extends GetxController {
   @override
   Future<void> onInit() async {
     await fetchPost();
+    //getHttp("email", "pass", "trId");
     super.onInit();
   }
 
@@ -185,11 +210,14 @@ class MSVpnController extends GetxController {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: Flag(
-                            'Johannesburg',
+                            'US',
                             fit: BoxFit.cover,
                             height: 30,
                             width: 30,
-                            replacement: Text("not found"),
+                            replacement: Text(
+                              "not found",
+                              style: TextStyle(fontSize: 10),
+                            ),
                           ),
                         )),
                     Padding(
