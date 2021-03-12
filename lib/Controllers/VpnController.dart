@@ -20,7 +20,7 @@ class MSVpnController extends GetxController {
   RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = ''.obs;
   Rx<ServerListModel> selectedServer =
-      ServerListModel('Dubai', 'dxb01.macsentry.com', '').obs;
+      ServerListModel('Dubai', 'dxb01.macsentry.com', null).obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   Future connectVpn(
     String _email,
@@ -48,8 +48,9 @@ class MSVpnController extends GetxController {
   Future<void> initPlatformState(
       String email, String password, ServerListModel serverListModel) async {
     await saveCred(email, password);
-    var contennt = await rootBundle.loadString(await fetchOVPn(
-        "${serverListModel.file}.ovpn")); //serverListModel.file);
+    var contennt = await rootBundle.loadString(
+        (await fetchOVPn(serverListModel.file))
+            .toString()); //serverListModel.file);
 
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
@@ -187,7 +188,7 @@ class MSVpnController extends GetxController {
     )
   ].obs;
 
-  Future<List<dynamic>> fetchPost() async {
+  Future<void> fetchPost() async {
     try {
       final response =
           await http.get('https://www.macsentry.com/config/serverList.php');
@@ -242,7 +243,7 @@ class MSVpnController extends GetxController {
             ));
             count++;
           });
-          serverList.forEach((element) {});
+          // serverList.forEach((element) {});
         }
         print('object');
       } else {
@@ -256,10 +257,10 @@ class MSVpnController extends GetxController {
 
   static var httpClient = new HttpClient();
 
-  fetchOVPn(String serverurl) async {
+  Future<File> fetchOVPn(File serverurl) async {
     try {
       var request = await httpClient
-          .getUrl(Uri.parse('http://macsentry.com/config/$serverurl.ovpn'));
+          .getUrl(Uri.parse('https://macsentry.com/config/$serverurl.ovpn'));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       File ovpnFile = File.fromRawPath(bytes);
@@ -267,6 +268,7 @@ class MSVpnController extends GetxController {
       return ovpnFile;
     } catch (e) {
       print('File Fetching Error=>.................${e.toString()}');
+      return null;
     }
   }
 }

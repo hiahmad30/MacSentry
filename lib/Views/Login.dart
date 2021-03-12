@@ -34,8 +34,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool validator = true;
 
-///////////////////////////////////Firebase Auth////////////////////////////////////////////////////////
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
