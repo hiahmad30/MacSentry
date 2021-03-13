@@ -20,8 +20,18 @@ class MSVpnController extends GetxController {
   RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = ''.obs;
   Rx<ServerListModel> selectedServer =
-      ServerListModel('Dubai', 'dxb01.macsentry.com', null).obs;
+      ServerListModel('Dubai', 'dxb01.macsentry.com', null, '').obs;
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //
+
+  @override
+  Future<void> onInit() async {
+    await fetchPost();
+    //getHttp("email", "pass", "trId");
+    super.onInit();
+  }
+
   Future connectVpn(
     String _email,
     String _pass,
@@ -49,7 +59,7 @@ class MSVpnController extends GetxController {
       String email, String password, ServerListModel serverListModel) async {
     await saveCred(email, password);
     var contennt = await rootBundle.loadString(
-        (await fetchOVPn(serverListModel.file))
+        (await fetchOVPn(serverListModel.fileUrl))
             .toString()); //serverListModel.file);
 
     await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
@@ -151,22 +161,6 @@ class MSVpnController extends GetxController {
   }
 
   @override
-  Future<void> onReady() async {
-    await getCred();
-
-    // TODO: implement onReady
-    super.onReady();
-  }
-  //
-
-  @override
-  Future<void> onInit() async {
-    await fetchPost();
-    //getHttp("email", "pass", "trId");
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     FlutterOpenvpn.stopVPN();
     // TODO: implement onClose
@@ -174,7 +168,7 @@ class MSVpnController extends GetxController {
   } ////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
-  List<ServerListModel> serverList = new List<ServerListModel>();
+  List<ServerListModel> serverList = [];
   RxList<DropdownMenuItem<String>> serverDropDownItem = [
     DropdownMenuItem<String>(
       child: Padding(
@@ -201,7 +195,8 @@ class MSVpnController extends GetxController {
           int count = 0;
           values.forEach((key, value) async {
             File ofile = await fetchOVPn(values[key]);
-            serverList.add(ServerListModel(key, values[key], ofile));
+            serverList
+                .add(ServerListModel(key, values[key], ofile, values[key]));
 
             serverDropDownItem.add(DropdownMenuItem<String>(
               child: Padding(
@@ -257,7 +252,7 @@ class MSVpnController extends GetxController {
 
   static var httpClient = new HttpClient();
 
-  Future<File> fetchOVPn(File serverurl) async {
+  Future<File> fetchOVPn(String serverurl) async {
     try {
       var request = await httpClient
           .getUrl(Uri.parse('https://macsentry.com/config/$serverurl.ovpn'));
