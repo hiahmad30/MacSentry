@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
@@ -42,12 +43,19 @@ class _LoginPageState extends State<LoginPage> {
         child: SafeArea(
           child: Stack(children: [
             Positioned(
-              top: 40,
-              left: 20,
+              top: 20,
+              left: 0,
               child: Container(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -149,13 +157,31 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await vpnController
-                                .connectVpn(_emailControllerlogin.text,
+                            Get.defaultDialog(
+                                title: 'Loading',
+                                content: SpinKitFadingCircle(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: index.isEven
+                                            ? Colors.red
+                                            : Colors.green,
+                                      ),
+                                    );
+                                  },
+                                ));
+                            await authController
+                                .loginRequest(_emailControllerlogin.text,
                                     _passControllerlogin.text)
                                 .then((value) async {
-                              await vpnController.getCred();
-                              Get.back();
-                              Get.off(HomeDrawer());
+                              if (value == true) {
+                                await authController.getCred();
+                                Get.back();
+                                Get.off(HomeDrawer());
+                              } else {
+                                Get.back();
+                              }
                             });
                           }
                         },

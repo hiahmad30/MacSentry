@@ -15,8 +15,7 @@ class MSVpnController extends GetxController {
   RxString isConneString = 'Connect'.obs;
   //TODO
   RxBool isConnected = false.obs;
-  RxString userEmail = ''.obs;
-  RxString pass = ''.obs;
+
   RxDouble connectLoad = 0.0.obs;
   RxString selectedContry = ''.obs;
   Rx<ServerListModel> selectedServer =
@@ -43,7 +42,8 @@ class MSVpnController extends GetxController {
       ).then((value) {
         isConneString.value = 'Connecting';
       });
-      await initPlatformState(_email, _pass, selectedServer.value);
+      await initPlatformState(
+          _email, _pass, selectedServer.value.file.toString());
     }
   }
 
@@ -56,13 +56,14 @@ class MSVpnController extends GetxController {
   }
 
   Future<void> initPlatformState(
-      String email, String password, ServerListModel serverListModel) async {
-    await saveCred(email, password);
-    var contennt = await rootBundle.loadString(
-        (await fetchOVPn(serverListModel.fileUrl))
-            .toString()); //serverListModel.file);
+      String email, String password, String vpnString) async {
+    matchfile();
+    //   await saveCred(email, password);
+    // var contennt = await rootBundle.loadString(
+    //    (await fetchOVPn(serverListModel.fileUrl))
+    //      .toString()); //serverListModel.file);
 
-    await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
+    await FlutterOpenvpn.lunchVpn(vpnString, (isProfileLoaded) {
       print('isProfileLoaded : $isProfileLoaded');
       //connectLoad.value = 0.5;
       // Get.defaultDialog(
@@ -102,61 +103,37 @@ class MSVpnController extends GetxController {
   }
 
   /////////////////////////////////sAVE DATA
-  Future<bool> saveCred(String username, String password) async {
-    String trId = '122112';
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      prefs.setString('userName', username);
-      prefs.setString('password', password);
-      return getHttp(username, password, trId);
-    } catch (ex) {
-      return false;
+  matchfile() {
+    if (selectedContry.value != '') {
+      serverList.forEach((element) {
+        if (element.country == selectedContry.value) {
+          selectedServer.value = element;
+        }
+      });
     }
   }
 
-  Future<void> getCred() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      userEmail.value = prefs.getString('user');
-      pass.value = prefs.getString('password');
-    } catch (ex) {
-      print(ex.toString());
-      return false;
-    }
-  }
-
-  Future<void> logOutCred() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      prefs.remove('password');
-      prefs.remove('user');
-    } catch (ex) {
-      print(ex.toString());
-      return false;
-    }
-  }
-
-  Future<bool> getHttp(String email, String pass, String trId) async {
+  Future<Map> getHttp(String email, String pass, String trId) async {
     try {
       final response = await Dio().post(
-          "http://macsentry.com/appstore/create.php",
+          "https://macsentry.com/appstore/create.php",
           data: {'email': email, 'password': pass, 'transactionId': trId});
       if (response.statusMessage == 'OK') {
-        final Map parsed = json.decode(response.toString());
+        final Map parsed = json.decode(response.data.toString());
 
         print(parsed);
 
-        saveCred(parsed['user'], parsed['password']);
-        return true;
+        //  saveCred(parsed['user'], parsed['password']);
+        return parsed;
       } else {
         Get.defaultDialog(
             title: 'Server Error',
             content: Text(response.statusMessage.toString()));
-        return false;
+        return null;
       }
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 
@@ -240,10 +217,9 @@ class MSVpnController extends GetxController {
           });
           // serverList.forEach((element) {});
         }
-        print('object');
       } else {
         // If that call was not successful, throw an error.
-        throw Exception('Failed to load post');
+        throw Exception('Failed to load dropdown');
       }
     } catch (ex) {
       print(ex.toString());

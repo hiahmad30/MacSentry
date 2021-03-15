@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:macsentry/Controllers/AuthController.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Models/ServerListModel.dart';
 import 'package:macsentry/Views/Login.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
@@ -15,6 +17,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final vpnController = Get.put(MSVpnController());
+  final authController = Get.put(AuthController());
   ///////////////////////////////////////////////
 
   @override
@@ -118,13 +121,12 @@ class _MainPageState extends State<MainPage> {
                       )),
                 onTap: () async {
                   if (!vpnController.isConnected.value) {
-                    if (vpnController.userEmail.value == null &&
-                        vpnController.pass.value == null)
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    if (prefs.getString('trId') == null)
                       Get.to(() => LoginPage());
                     else {
-                      await vpnController.connectVpn(
-                          vpnController.userEmail.value,
-                          vpnController.pass.value);
+                      await authController.checkAlready();
                     }
                   } else
                     vpnController.disconnectVpn();

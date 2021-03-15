@@ -39,12 +39,19 @@ class _SignUpPageState extends State<SignUpPage> {
         child: SafeArea(
             child: Stack(children: [
           Positioned(
-            top: 40,
-            left: 20,
+            top: 20,
+            left: 0,
             child: Container(
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 20,
+              child: Center(
+                child: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 20,
+                  ),
+                ),
               ),
             ),
           ),

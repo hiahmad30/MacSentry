@@ -14,6 +14,7 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  final authController = Get.put(AuthController());
   bool _selected;
   Color dashboardColor = Colors.grey;
   Color eventsColor = Colors.grey;
@@ -137,8 +138,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   title: 'Log out',
                   textConfirm: 'Yes',
                   content: Text('Are you sure to log out?'),
-                  onConfirm: () {
-                    MSVpnController().logOutCred();
+                  onConfirm: () async {
+                    await authController.logOutCred();
                     Get.offAll(LoginPage());
                   },
                 );
