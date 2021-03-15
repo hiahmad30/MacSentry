@@ -42,6 +42,7 @@ class MSVpnController extends GetxController {
       ).then((value) {
         isConneString.value = 'Connecting';
       });
+      matchfile();
       await initPlatformState(
           _email, _pass, selectedServer.value.file.toString());
     }
@@ -57,7 +58,6 @@ class MSVpnController extends GetxController {
 
   Future<void> initPlatformState(
       String email, String password, String vpnString) async {
-    matchfile();
     //   await saveCred(email, password);
     // var contennt = await rootBundle.loadString(
     //    (await fetchOVPn(serverListModel.fileUrl))
