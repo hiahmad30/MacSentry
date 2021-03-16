@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,7 @@ class AuthController extends GetxController {
     // }
     // if (firebaseAuth.currentUser == null) {
     // await vpnController.getCred();
+    InAppPurchaseConnection.enablePendingPurchases();
     return HomeDrawer();
     // } else {
     //  firebaseUser = firebaseAuth.currentUser;
@@ -38,6 +40,7 @@ class AuthController extends GetxController {
 
   Future<bool> loginRequest(String username, String password) async {
     String trId = '122112';
+    vpnController.isConneString = 'Connecting'.obs;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       prefs.setString('userName', username);
@@ -58,6 +61,8 @@ class AuthController extends GetxController {
 
   Future<bool> checkAlready() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    vpnController.isConneString.value = 'Connecting';
+
     try {
       String trId = prefs.getString('trId');
       String username = prefs.getString('userName');
@@ -66,6 +71,7 @@ class AuthController extends GetxController {
         await vpnController
             .connectVpn(value['user'].toString(), value['password'].toString())
             .then((value) => Get.to(() => HomeDrawer()));
+        return true;
       });
     } catch (ex) {
       Get.back();

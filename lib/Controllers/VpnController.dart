@@ -40,7 +40,7 @@ class MSVpnController extends GetxController {
         localizedDescription: "MacSentry",
         providerBundleIdentifier: "com.engra.macsentry",
       ).then((value) {
-        isConneString.value = 'Connecting';
+        isConneString.value = 'Connecting..';
       });
       matchfile();
       await initPlatformState(
@@ -63,43 +63,47 @@ class MSVpnController extends GetxController {
     //    (await fetchOVPn(serverListModel.fileUrl))
     //      .toString()); //serverListModel.file);
 
-    await FlutterOpenvpn.lunchVpn(vpnString, (isProfileLoaded) {
-      print('isProfileLoaded : $isProfileLoaded');
-      //connectLoad.value = 0.5;
-      // Get.defaultDialog(
-      //   title: "Profile Connected",
-      //   content: Text(isProfileLoaded.toString()),
-      // );
-    }, (vpnActivated) {
-      print('vpnActivated : $vpnActivated');
-      if (vpnActivated == 'WAIT') {
-        connectLoad.value = 0.4;
-      }
-      if (vpnActivated == 'AUTH') {
-        connectLoad.value = 0.6;
-      }
-      if (vpnActivated == 'ASSIGN_IP') {
-        connectLoad.value = 0.8;
-      }
-      if (vpnActivated == 'DISCONNECTED') {
-        isConneString.value = 'Connect';
-        if (connectLoad.value != 0.0) connectLoad.value = 0.0;
-        isConnected.value = false;
-      } else if (vpnActivated == 'CONNECTED') {
-        if (connectLoad.value != 1.0) connectLoad.value = 1.0;
-        isConnected.value = true;
-        isConneString.value = 'Disconnect';
-      }
-    },
-        user: email,
-        pass: password,
-        onConnectionStatusChanged:
-            (duration, lastPacketRecieve, byteIn, byteOut) => print(byteIn),
-        expireAt: DateTime.now().add(
-          Duration(
-            minutes: 1,
-          ),
-        ));
+    try {
+      await FlutterOpenvpn.lunchVpn(vpnString, (isProfileLoaded) {
+        print('isProfileLoaded : $isProfileLoaded');
+        //connectLoad.value = 0.5;
+        // Get.defaultDialog(
+        //   title: "Profile Connected",
+        //   content: Text(isProfileLoaded.toString()),
+        // );
+      }, (vpnActivated) {
+        print('vpnActivated : $vpnActivated');
+        if (vpnActivated == 'WAIT') {
+          connectLoad.value = 0.4;
+        }
+        if (vpnActivated == 'AUTH') {
+          connectLoad.value = 0.6;
+        }
+        if (vpnActivated == 'ASSIGN_IP') {
+          connectLoad.value = 0.8;
+        }
+        if (vpnActivated == 'DISCONNECTED') {
+          isConneString.value = 'Connect';
+          if (connectLoad.value != 0.0) connectLoad.value = 0.0;
+          isConnected.value = false;
+        } else if (vpnActivated == 'CONNECTED') {
+          if (connectLoad.value != 1.0) connectLoad.value = 1.0;
+          isConnected.value = true;
+          isConneString.value = 'Disconnect';
+        }
+      },
+          user: email,
+          pass: password,
+          onConnectionStatusChanged:
+              (duration, lastPacketRecieve, byteIn, byteOut) => print(byteIn),
+          expireAt: DateTime.now().add(
+            Duration(
+              minutes: 60,
+            ),
+          ));
+    } catch (ex) {
+      isConneString.value = 'Connect';
+    }
   }
 
   /////////////////////////////////sAVE DATA
@@ -235,7 +239,7 @@ class MSVpnController extends GetxController {
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       File ovpnFile = File.fromRawPath(bytes);
-      print('File Fetched=>...........${ovpnFile.toString()}');
+      // print('File Fetched=>...........${ovpnFile.toString()}');
       return ovpnFile;
     } catch (e) {
       print('File Fetching Error=>.................${e.toString()}');
