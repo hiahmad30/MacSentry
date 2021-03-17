@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
+import 'package:macsentry/Controllers/SubscriptionController.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   // Intilize the flutter app
+
   RxString userEmail = ''.obs;
   RxString pass = ''.obs;
   final vpnController = Get.put(MSVpnController());
@@ -80,23 +83,12 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> getCred() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      userEmail.value = prefs.getString('user');
-      pass.value = prefs.getString('password');
-      return true;
-    } catch (ex) {
-      print(ex.toString());
-      return false;
-    }
-  }
-
   Future<void> logOutCred() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       prefs.remove('password');
       prefs.remove('user');
+      prefs.remove('trId');
     } catch (ex) {
       print(ex.toString());
       return false;

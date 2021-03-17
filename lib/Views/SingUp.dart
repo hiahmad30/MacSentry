@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:macsentry/Controllers/AuthController.dart';
+import 'package:macsentry/Controllers/SubscriptionController.dart';
 
 import '../constants.dart';
 
@@ -11,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final subscriptionController = Get.put(SubscriptionController());
   bool _autoValidate = false;
   String selectedPackage = "7 Days Free";
   /////////////////////////////////////GetX Controller///////////////////////////////////
@@ -193,8 +194,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         "Create Account",
                         style: MyResources.appTextStyle,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState.validate()) {
+                          await subscriptionController.getProduct();
                           // authController.signInwithEmail(
                           //     _emailControllerlogin.text,
                           //     _passControllerlogin.text);

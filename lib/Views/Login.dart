@@ -176,7 +176,6 @@ class _LoginPageState extends State<LoginPage> {
                                     _passControllerlogin.text)
                                 .then((value) async {
                               if (value == true) {
-                                await authController.getCred();
                                 Get.back();
                                 Get.off(HomeDrawer());
                               } else {

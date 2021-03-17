@@ -4,12 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:macsentry/Models/ServerListModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MSVpnController extends GetxController {
   RxString isConneString = 'Connect'.obs;
@@ -40,7 +38,7 @@ class MSVpnController extends GetxController {
         localizedDescription: "MacSentry",
         providerBundleIdentifier: "com.engra.macsentry",
       ).then((value) {
-        isConneString.value = 'Connecting..';
+        isConneString.value = 'Connecting';
       });
       matchfile();
       await initPlatformState(
@@ -102,6 +100,7 @@ class MSVpnController extends GetxController {
             ),
           ));
     } catch (ex) {
+      print('$ex');
       isConneString.value = 'Connect';
     }
   }
@@ -165,8 +164,8 @@ class MSVpnController extends GetxController {
 
   Future<void> fetchPost() async {
     try {
-      final response = await http.get(
-          Uri.https('https://www.macsentry.com', '/config/serverList.php'));
+      final response = await http
+          .get(Uri.https('www.macsentry.com', '/config/serverList.php'));
 
       if (response.statusCode == 200) {
         // If the call to the server was successful, parse the JSON
