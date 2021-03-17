@@ -24,19 +24,19 @@ dependencies:
   flutter:
     sdk: flutter
   get:
-  flutter_inapp_purchase: ^4.0.2
-  google_fonts: ^2.0.0 
+  flutter_inapp_purchase: ^4.0.0
+  google_fonts: ^1.0.0 
   flutter_easyloading: ^2.2.2
   flutter_spinkit: 
-  flutter_openvpn: 
+  flutter_openvpn: ^0.2.0
   percent_indicator:
- 
-  shared_preferences: ^2.0.4
+  shared_preferences: #^0.5.8
+  path_provider: ^1.6.11
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  http: ^0.13.0
-  
+  http: ^0.12.0+2
+  # path_provider: ^2.0.1
   flag: ^3.2.2
   dio: 
 
