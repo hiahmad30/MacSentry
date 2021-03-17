@@ -165,8 +165,8 @@ class MSVpnController extends GetxController {
 
   Future<void> fetchPost() async {
     try {
-      final response =
-          await http.get('https://www.macsentry.com/config/serverList.php');
+      final response = await http.get(
+          Uri.https('https://www.macsentry.com', '/config/serverList.php'));
 
       if (response.statusCode == 200) {
         // If the call to the server was successful, parse the JSON

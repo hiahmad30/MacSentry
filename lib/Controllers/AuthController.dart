@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
 import 'package:macsentry/Views/HomeDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +27,7 @@ class AuthController extends GetxController {
     // }
     // if (firebaseAuth.currentUser == null) {
     // await vpnController.getCred();
-    InAppPurchaseConnection.enablePendingPurchases();
+
     return HomeDrawer();
     // } else {
     //  firebaseUser = firebaseAuth.currentUser;
