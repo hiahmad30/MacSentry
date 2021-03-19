@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_openvpn/flutter_openvpn.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -57,12 +58,12 @@ class MSVpnController extends GetxController {
   Future<void> initPlatformState(
       String email, String password, String vpnString) async {
     //   await saveCred(email, password);
-    // var contennt = await rootBundle.loadString(
+    var contennt = await rootBundle.loadString('assets/1.ovpn');
     //    (await fetchOVPn(serverListModel.fileUrl))
     //      .toString()); //serverListModel.file);
 
     try {
-      await FlutterOpenvpn.lunchVpn(vpnString, (isProfileLoaded) {
+      await FlutterOpenvpn.lunchVpn(contennt, (isProfileLoaded) {
         print('isProfileLoaded : $isProfileLoaded');
         //connectLoad.value = 0.5;
         // Get.defaultDialog(
@@ -90,8 +91,10 @@ class MSVpnController extends GetxController {
           isConneString.value = 'Disconnect';
         }
       },
-          user: email,
-          pass: password,
+          // user: email,
+          // pass: password,
+          user: 'pkalos@gmail.com1',
+          pass: 'iQtU0U(3aQ[00d',
           onConnectionStatusChanged:
               (duration, lastPacketRecieve, byteIn, byteOut) => print(byteIn),
           expireAt: DateTime.now().add(
@@ -195,7 +198,7 @@ class MSVpnController extends GetxController {
                             fit: BoxFit.cover,
                             height: 30,
                             width: 30,
-                            replacement: Text("not found"),
+                            replacement: Icon(Icons.flag_outlined),
                           ),
                         )),
                     Padding(

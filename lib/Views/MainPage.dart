@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                                         'Disconnect',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 25,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -91,7 +91,7 @@ class _MainPageState extends State<MainPage> {
                           animateFromLastPercent: true,
                           animationDuration: 1000,
                           animation: true,
-                          radius: 200.0,
+                          radius: 180.0,
                           lineWidth: 15.0,
                           circularStrokeCap: CircularStrokeCap.square,
                           center: CircleAvatar(
@@ -115,7 +115,7 @@ class _MainPageState extends State<MainPage> {
                                     )),
                               ],
                             ),
-                            radius: 100,
+                            radius: 80,
                           ),
                         ),
                       )),
@@ -123,11 +123,16 @@ class _MainPageState extends State<MainPage> {
                   if (!vpnController.isConnected.value) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    if (prefs.getString('trId') == null)
+                    if (vpnController.selectedContry.value !=
+                        '') if (prefs.getString('trId') == null)
                       Get.to(() => LoginPage());
                     else {
                       await authController.checkAlready();
                     }
+                    else
+                      Get.rawSnackbar(
+                          title: 'Country Error',
+                          message: 'Please Select Country first');
                   } else
                     vpnController.disconnectVpn();
                   //
