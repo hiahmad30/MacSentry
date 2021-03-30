@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:get/get.dart';
+import '../purchase.dart';
 import 'package:http/http.dart';
 import 'package:macsentry/Controllers/SubscriptionController.dart';
 import 'package:macsentry/Controllers/VpnController.dart';
@@ -31,7 +33,7 @@ class AuthController extends GetxController {
     // if (firebaseAuth.currentUser == null) {
     // await vpnController.getCred();
 
-    return HomeDrawer();
+    return InAppPurchase();
     // } else {
     //  firebaseUser = firebaseAuth.currentUser;
     //  update();
