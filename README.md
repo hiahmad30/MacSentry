@@ -1,6 +1,6 @@
 # macsentry
 
-A VPN service provider application developed in flutter.
+A VPN service provider application developed in flutter.this is demo application. if you want to clone it, please change credintials.
 
 ## Getting Started
 
